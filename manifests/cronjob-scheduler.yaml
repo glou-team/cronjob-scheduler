@@ -1,0 +1,38 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: glou-cronjob-scheduler
+  labels:
+    app: cronjob-scheduler
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: cronjob-scheduler
+  template:
+    metadata:
+      labels:
+        app: cronjob-scheduler
+    spec:
+      imagePullSecrets:
+      - name: dockerhub-login
+
+      containers:
+      - name: cronjob-scheduler
+        image: viniaxt/cronjob-scheduler:latest
+        ports:
+        - containerPort: 3000
+        resources:
+          limits:
+            cpu: 300m
+          requests:
+            cpu: 200m
+        env:
+        - name: JWT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: authentication
+              key: jwt
