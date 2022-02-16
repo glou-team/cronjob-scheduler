@@ -12,6 +12,8 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 
+  console.log(`Pod novo!!!`)
+
   cron.schedule('* * * * * *', () => {
     console.log('⏰ Task a cada 1 segundo')
     // axios.post('http://localhost:1337/cronjob/every-second')
