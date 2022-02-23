@@ -4,7 +4,7 @@ const cron = require('node-cron');
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
-const jwt = proccess.env.JWT_TOKEN || ''
+const jwt = process.env.JWT_TOKEN || ''
 
 app.get('/', (req, res) => {
   res.send({ success: true })
