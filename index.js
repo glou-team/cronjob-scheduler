@@ -4,6 +4,7 @@ const cron = require('node-cron');
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
+const jwt = proccess.env.JWT_TOKEN || ''
 
 app.get('/', (req, res) => {
   res.send({ success: true })
@@ -12,17 +13,19 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 
-  console.log(`Salve rapeiz`)
+  cron.schedule('*/5 * * * *', () => {
+    console.log('⏰ Task a cada 5 minutos')
 
-
-  cron.schedule('* * * * * *', () => {
-    console.log('⏰ Task a cada 1 segundo')
-    // axios.post('http://localhost:1337/cronjob/every-second')
-    //   .then(({data}) => console.log({ data }))
-    //   .catch(err => console.log({ err: err.message }))
+    axios.post('https://glou-homolog.herokuapp.com/cronjob/every-five-minutes')
+      .then(({data}) => console.log({ data }))
+      .catch(err => console.log({ err: err.message }))
   });
 
-  cron.schedule('0 * * * *', () => {
-    console.log('Task a cada hora')
+  cron.schedule('0 11 * * *', () => {
+    console.log('⏰ Task diária às 11:00')
+
+    axios.post('https://glou-homolog.herokuapp.com/cronjob/every-day')
+      .then(({data}) => console.log({ data }))
+      .catch(err => console.log({ err: err.message }))
   })
 })
